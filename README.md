@@ -3,7 +3,7 @@
 
 **Language:** PHP 8.3
 
-**Framework:** Laravel 11
+**Framework:** Laravel 11 | Pest for unit test
 
 **Database:** MySQL | PostgreSQL
 
