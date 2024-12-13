@@ -70,9 +70,8 @@ class EloquentUserRepositories implements UserRepositories
     {
         try {
             // process get user data
-            $data = $this->userModel->paginate(10);
+            $data = $this->userModel->paginate(2);
             $response = $this->sendResponse(null, 200, $data);
-
         } catch (CustomException $ex) {
             $ex = json_decode($ex->getMessage());
             $response = $this->sendResponse($ex[0], $ex[1]);
@@ -159,8 +158,14 @@ class EloquentUserRepositories implements UserRepositories
                 throw new \Exception($this->outputMessage('update fail', 'user'));
             endif;
 
+            // get created user
+            $getUpdatedUser = $this->checkerHelpers->userChecker($request);
+            if (is_null($getUpdatedUser)) :
+                throw new \Exception($this->outputMessage('not found', 'user'));
+            endif;
+
             DB::commit();
-            $response = $this->sendResponse($this->outputMessage('updated', 'user'), 201, null);
+            $response = $this->sendResponse($this->outputMessage('updated', 'user', $getUpdatedUser), 201, null);
         } catch (CustomException $ex) {
             $ex = json_decode($ex->getMessage());
             $response = $this->sendResponse($ex[0], $ex[1]);

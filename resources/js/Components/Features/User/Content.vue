@@ -23,7 +23,15 @@ const {
     closeModalDeleteUser,
     deleteUserProcess,
     successDialog,
-    openSuccessDialog
+    openSuccessDialog,
+    isEditUserModalOpen,
+    closeEditUserModal,
+    editUserProcess,
+    selectedUser,
+    form,
+    pagination,
+    fetchUsers,
+    changePage,
 } = useUser();
 </script>
 
@@ -64,6 +72,24 @@ const {
     </Tables>
     <!-- end listing user -->
 
+    <!-- Pagination -->
+    <div class="mt-4 flex justify-between items-center">
+        <button class="px-4 py-2 bg-gray-700 text-white rounded" :disabled="pagination.current_page === 1"
+            @click="changePage(pagination.current_page - 1)">
+            Previous
+        </button>
+
+        <span class="text-white">
+            Page {{ pagination.current_page }} of {{ pagination.last_page }}
+        </span>
+
+        <button class="px-4 py-2 bg-gray-700 text-white rounded"
+            :disabled="pagination.current_page === pagination.last_page"
+            @click="changePage(pagination.current_page + 1)">
+            Next
+        </button>
+    </div>
+
     <!-- delete user confirmatioin -->
     <ConfirmationModal :show="confirmingUserDeletion" @close="closeModalDeleteUser">
         <!-- title -->
@@ -92,7 +118,7 @@ const {
         <!-- end footer -->
     </ConfirmationModal>
     <!-- delete user confirmation -->
-     
+
     <!-- sucess modals -->
     <SuccessModal :show="openSuccessDialog" @close="openSuccessDialog = false">
         <!-- title -->
@@ -116,4 +142,41 @@ const {
         <!-- end footer -->
     </SuccessModal>
     <!-- delete user confirmation -->
+
+    <!-- Modal Edit User -->
+    <div v-if="isEditUserModalOpen && selectedUser" class="fixed z-10 inset-0 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-white rounded-lg p-6 shadow-lg w-full max-w-lg">
+                <h2 class="text-lg font-semibold mb-4">Edit User</h2>
+                <form @submit.prevent="editUserProcess">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input v-model="form.name" type="text" id="name"
+                            class="mt-1 block w-full border rounded-md p-2" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input v-model="form.email" type="email" id="email"
+                            class="mt-1 block w-full border rounded-md p-2" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
+                        <input v-model="form.tanggal_lahir" type="date" id="tanggal_lahir"
+                            class="mt-1 block w-full border rounded-md p-2" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="tempat_tinggal" class="block text-sm font-medium text-gray-700">Tempat
+                            Tinggal</label>
+                        <input v-model="form.tempat_tinggal" type="text" id="tempat_tinggal"
+                            class="mt-1 block w-full border rounded-md p-2" />
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" @click="closeEditUserModal"
+                            class="px-4 py-2 bg-gray-300 rounded-md mr-2">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </template>

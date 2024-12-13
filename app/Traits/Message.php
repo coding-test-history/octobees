@@ -118,7 +118,7 @@ trait Message
 
         $result = array_values($filteredArray)[0]['message'];
 
-        if ($type === 'saved') {
+        if ($type === 'saved' || $type === 'updated') {
             return [
                 'message' => ucwords($result),
                 'data'    => $datas ?? []
