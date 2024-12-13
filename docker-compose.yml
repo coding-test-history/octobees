@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  octobees:
+    build:
+      context: .
+    container_name: octobees
+    depends_on:
+      - mysql-db
+    networks:
+      - app_network
+    environment:
+      DB_HOST: mysql-db
+      DB_DATABASE: db_octobees
+      DB_USERNAME: user_octobees
+      DB_PASSWORD: password
+    ports:
+      - "8000:80"
+
+  mysql-db:
+    image: mysql:5.7
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_octobees
+      MYSQL_USER: user_octobees
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+
