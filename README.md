@@ -221,3 +221,34 @@ response
     "message": "Data User Berhasil Dihapus"
 }
 ```
+
+## Arsitektur
+
+### Monolitik
+```json
+.
+├── app/
+│   ├── Helpers
+│   └── Http/
+│       ├── Controller
+│       ├── Request // form request validation in here
+│       ├── Models
+│       ├── Repositories // business logic in here
+│       └── Traits // for process that can use in everywhere 
+├── database/
+│   ├── migration
+│   └── seeders
+├── resources/
+│   ├── css
+│   ├── js/ // if using vue, this is the source location
+│   │   ├── Components // for all components
+│   │   ├── Composables // for all process or business logic
+│   │   ├── Helpers // for process that can use in everywhere 
+│   │   ├── Layouts // for base layout or theme
+│   │   ├── Models // for defined models or entity 
+│   │   └── Pages // for application pages
+│   ├── markdown // location for all markdown 
+│   └── views // location for blade template
+├── routes // for all routes registered
+└── test // for unit testing
+```

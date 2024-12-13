@@ -29,7 +29,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 RUN composer install \
     && cp .env.example .env \
-    && php artisan key:generate
+    && php artisan key:generate \
+    && php artisan migrate \
+    && php artisan db:seed --class=DatabaseSeeder \
+    && npm install && npm run build
 
 # Aktifkan mod_rewrite Apache untuk Laravel
 RUN a2enmod rewrite
