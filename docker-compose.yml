@@ -5,20 +5,20 @@ services:
       context: .
     container_name: octobees
     depends_on:
-      - mysql-db
+      - octobees-mysql-db
     networks:
       - app_network
     environment:
-      DB_HOST: mysql-db
+      DB_HOST: octobees-mysql-db
       DB_DATABASE: db_octobees
       DB_USERNAME: user_octobees
       DB_PASSWORD: password
     ports:
       - "8000:80"
 
-  mysql-db:
+  octobees-mysql-db:
     image: mysql:5.7
-    container_name: mysql-db
+    container_name: octobees-mysql-db
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
